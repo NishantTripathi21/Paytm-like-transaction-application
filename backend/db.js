@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://Nishant:Nishant@cluster0.qsnf100.mongodb.net/PaytmBD");
+mongoose.connect("mongodb://localhost:27017/PaytmBD");
 
 const userSchema = mongoose.Schema({
     firstName: {
@@ -9,9 +9,7 @@ const userSchema = mongoose.Schema({
     lastName: String,
     username: {
         type: String,
-        unique: true,
-        minLenght: 3,
-        maxLenght: 20
+        unique: true
     },
     password: {
         type: String,

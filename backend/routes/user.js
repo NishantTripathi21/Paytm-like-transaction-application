@@ -1,8 +1,9 @@
 const express = require("express");
 const zod = require("zod");
+const { authMiddleware } = require('../middlewares/user');
 const { userDb } = require("../db");
 const router = express.Router();
-const JWT_Secret = require("../config");
+const JWT_SECRET = "NISAHI";
 const jwt = require("jsonwebtoken");
 const signupSchema= zod.object({
     firstName: zod.string(),
@@ -18,9 +19,7 @@ router.post("/signup",async (req,res)=>{
             message: "Invalid input"
         })
     }
-    const user = userDb.findOne({
-        username: body.username
-    })
+    const user = await userDb.findOne({ username: body.username });
     if(user) {
         return res.status(400).json({
             message: "User already exists"
@@ -34,7 +33,7 @@ router.post("/signup",async (req,res)=>{
     })
     const token = jwt.sign({
         userId: dbuser._id
-    }, JWT_Secret)
+    }, JWT_SECRET)
     res.json({
         message: "user created successfully",
         token: token
@@ -121,4 +120,12 @@ router.get("/bulk", async (req, res) => {
     })
 })
 
+router.get("/getUsers",authMiddleware,async (req, res) => {
+    const allUsers = userDb.find({})
+    console.log(allUsers);
+    res.json({
+        user: allUsers
+    })
+    return;
+})
 module.exports = router

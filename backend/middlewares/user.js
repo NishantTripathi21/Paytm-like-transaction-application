@@ -1,10 +1,11 @@
-const { JWT_SECRET } = require("./config");
+const JWT_SECRET  = "NISAHI";
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        console.log("Invalid token");
         return res.status(403).json({});
     }
 
@@ -12,9 +13,11 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
+        console.log(decoded);
         req.userId = decoded.userId;
         next();
     } catch (err) {
+        console.log(err);
         return res.status(403).json({});
     }
 };
