@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 mongoose.connect("mongodb://localhost:27017/PaytmBD");
+=======
+mongoose.connect("");
+>>>>>>> 35ad791dc5b7938bbd96f40192dfae2476c3ddd7
 
 const userSchema = mongoose.Schema({
     firstName: {
